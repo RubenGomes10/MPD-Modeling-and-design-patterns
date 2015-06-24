@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_mpd_exercices" default="compile.module.mpd_exercices">
+  <dirname property="module.mpd_exercices.basedir" file="${ant.file.module_mpd_exercices}"/>
+  
+  <property name="module.jdk.home.mpd_exercices" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.mpd_exercices" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.mpd_exercices" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.mpd_exercices" value="-encoding UTF-8 -source 8 ${compiler.args}"/>
+  
+  <property name="mpd_exercices.output.dir" value="${module.mpd_exercices.basedir}/target/classes"/>
+  <property name="mpd_exercices.testoutput.dir" value="${module.mpd_exercices.basedir}/target/test-classes"/>
+  
+  <path id="mpd_exercices.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="mpd_exercices.module.production.classpath">
+    <path refid="${module.jdk.classpath.mpd_exercices}"/>
+  </path>
+  
+  <path id="mpd_exercices.runtime.production.module.classpath">
+    <pathelement location="${mpd_exercices.output.dir}"/>
+  </path>
+  
+  <path id="mpd_exercices.module.classpath">
+    <path refid="${module.jdk.classpath.mpd_exercices}"/>
+    <pathelement location="${mpd_exercices.output.dir}"/>
+    <path refid="library.maven:_junit:junit:4.11.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+  </path>
+  
+  <path id="mpd_exercices.runtime.module.classpath">
+    <pathelement location="${mpd_exercices.testoutput.dir}"/>
+    <pathelement location="${mpd_exercices.output.dir}"/>
+    <path refid="library.maven:_junit:junit:4.11.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.mpd_exercices">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.mpd_exercices">
+    <patternset refid="excluded.from.module.mpd_exercices"/>
+  </patternset>
+  
+  <path id="mpd_exercices.module.sourcepath">
+    <dirset dir="${module.mpd_exercices.basedir}">
+      <include name="src/main/java"/>
+      <include name="src/main/resources"/>
+    </dirset>
+  </path>
+  
+  <path id="mpd_exercices.module.test.sourcepath">
+    <dirset dir="${module.mpd_exercices.basedir}">
+      <include name="src/test/java"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.mpd_exercices" depends="compile.module.mpd_exercices.production,compile.module.mpd_exercices.tests" description="Compile module MPD_Exercices"/>
+  
+  <target name="compile.module.mpd_exercices.production" depends="register.custom.compilers" description="Compile module MPD_Exercices; production classes">
+    <mkdir dir="${mpd_exercices.output.dir}"/>
+    <javac2 destdir="${mpd_exercices.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.mpd_exercices}/javac">
+      <compilerarg line="${compiler.args.mpd_exercices}"/>
+      <bootclasspath refid="mpd_exercices.module.bootclasspath"/>
+      <classpath refid="mpd_exercices.module.production.classpath"/>
+      <src refid="mpd_exercices.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.mpd_exercices"/>
+    </javac2>
+    
+    <copy todir="${mpd_exercices.output.dir}">
+      <fileset dir="${module.mpd_exercices.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.mpd_exercices.basedir}/src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.mpd_exercices.tests" depends="register.custom.compilers,compile.module.mpd_exercices.production" description="compile module MPD_Exercices; test classes" unless="skip.tests">
+    <mkdir dir="${mpd_exercices.testoutput.dir}"/>
+    <javac2 destdir="${mpd_exercices.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.mpd_exercices}/javac">
+      <compilerarg line="${compiler.args.mpd_exercices}"/>
+      <bootclasspath refid="mpd_exercices.module.bootclasspath"/>
+      <classpath refid="mpd_exercices.module.classpath"/>
+      <src refid="mpd_exercices.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.mpd_exercices"/>
+    </javac2>
+    
+    <copy todir="${mpd_exercices.testoutput.dir}">
+      <fileset dir="${module.mpd_exercices.basedir}/src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.mpd_exercices" description="cleanup module">
+    <delete dir="${mpd_exercices.output.dir}"/>
+    <delete dir="${mpd_exercices.testoutput.dir}"/>
+  </target>
+</project>
