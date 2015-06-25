@@ -184,6 +184,20 @@ public class TestImplementations {
     }
 
 
+    //4
+    @Test
+    public void testServiceWrapper(){
+
+
+        ServiceWrapper<String> serv = new ServiceWrapper<>(new PureService<>());
+
+        serv.addSubscriber(
+                elem -> System.out.println("Succeeded with " + elem),
+                excep -> System.out.println("bhaaaa")
+        );
+        serv.start();
+
+    }
 
 }
 
